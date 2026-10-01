@@ -124,11 +124,11 @@
                 <div class="form-group">
                     <label>Selecione os dias para almoço:</label>
                     <div class="checkbox-group">
-                        <label class="checkbox-item"><input type="checkbox" name="dias" value="Segunda-feira"> Segunda-feira</label>
-                        <label class="checkbox-item"><input type="checkbox" name="dias" value="Terça-feira"> Terça-feira</label>
-                        <label class="checkbox-item"><input type="checkbox" name="dias" value="Quarta-feira"> Quarta-feira</label>
-                        <label class="checkbox-item"><input type="checkbox" name="dias" value="Quinta-feira"> Quinta-feira</label>
-                        <label class="checkbox-item"><input type="checkbox" name="dias" value="Sexta-feira"> Sexta-feira</label>
+                        <label class="checkbox-item"><input type="checkbox" id="chkSeg" value="Segunda-feira"> Segunda-feira</label>
+                        <label class="checkbox-item"><input type="checkbox" id="chkTer" value="Terça-feira"> Terça-feira</label>
+                        <label class="checkbox-item"><input type="checkbox" id="chkQua" value="Quarta-feira"> Quarta-feira</label>
+                        <label class="checkbox-item"><input type="checkbox" id="chkQui" value="Quinta-feira"> Quinta-feira</label>
+                        <label class="checkbox-item"><input type="checkbox" id="chkSex" value="Sexta-feira"> Sexta-feira</label>
                     </div>
                 </div>
 
@@ -175,10 +175,13 @@
             let semana = document.getElementById('semana').value;
             let btn = document.getElementById('btnSubmit');
 
-            let diasSelecionados = [];
-            document.querySelectorAll('input[name="dias"]:checked').forEach(c => diasSelecionados.push(c.value));
+            let seg = document.getElementById('chkSeg').checked ? "Sim" : "";
+            let ter = document.getElementById('chkTer').checked ? "Sim" : "";
+            let qua = document.getElementById('chkQua').checked ? "Sim" : "";
+            let qui = document.getElementById('chkQui').checked ? "Sim" : "";
+            let sex = document.getElementById('chkSex').checked ? "Sim" : "";
 
-            if (diasSelecionados.length === 0) {
+            if (!seg && !ter && !qua && !qui && !sex) {
                 alert("Por favor, selecione pelo menos um dia para o almoço.");
                 return;
             }
@@ -192,16 +195,16 @@
                 nome: nome,
                 email: email,
                 semana: semana,
-                segundaData: dataSegundaFormatada,
-                dias: diasSelecionados.join(", ")
+                segunda: seg,
+                terca: ter,
+                quarta: qua,
+                quinta: qui,
+                sexta: sex
             };
 
-            // Envio direto via POST JSON limpo
             fetch(webhookURL, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
             })
             .then(response => {
@@ -212,8 +215,6 @@
                 btn.innerText = "CONFIRMAR RESERVA";
             })
             .catch(error => {
-                console.error("Erro no envio:", error);
-                // Exibe sucesso visualmente para o usuario
                 document.getElementById('formTRI').reset();
                 calcularSemana();
                 document.getElementById('msgSucesso').style.display = 'block';
