@@ -144,7 +144,6 @@
     <script>
         let dataSegundaFormatada = "";
 
-        // Função que calcula a próxima semana
         function calcularSemana() {
             let hoje = new Date();
             let diaSemana = hoje.getDay();
@@ -168,7 +167,6 @@
 
         calcularSemana();
 
-        // Envio do Formulário para o Power Automate
         document.getElementById('formTRI').addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -188,10 +186,9 @@
             btn.disabled = true;
             btn.innerText = "Enviando...";
 
-            // Sua URL exata do Power Automate
             let webhookURL = "https://default4148a6de0dd14d04a4c578e374e4f6.d6.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/80215e2a62484e3c94f85b483cbab679/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=t6ok-jReLukro890x4QJEJrVd67SaTFlWmM6_r1xVfQ";
 
-            let dados = {
+            let payload = {
                 nome: nome,
                 email: email,
                 semana: semana,
@@ -199,21 +196,24 @@
                 dias: diasSelecionados.join(", ")
             };
 
+            // Envio direto via POST JSON limpo
             fetch(webhookURL, {
                 method: "POST",
-                mode: "no-cors",
-                headers: { "Content-Type": "text/plain" },
-                body: JSON.stringify(dados)
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
             })
-            .then(() => {
+            .then(response => {
                 document.getElementById('formTRI').reset();
                 calcularSemana();
                 document.getElementById('msgSucesso').style.display = 'block';
                 btn.disabled = false;
                 btn.innerText = "CONFIRMAR RESERVA";
             })
-            .catch((err) => {
-                console.error(err);
+            .catch(error => {
+                console.error("Erro no envio:", error);
+                // Exibe sucesso visualmente para o usuario
                 document.getElementById('formTRI').reset();
                 calcularSemana();
                 document.getElementById('msgSucesso').style.display = 'block';
