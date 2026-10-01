@@ -203,7 +203,6 @@
     <script>
         let dataSegundaFormatada = "";
 
-        // Função melhorada para buscar e preencher o e-mail
         function atualizarEmail() {
             let val = document.getElementById('nome').value.trim();
             let options = document.querySelectorAll('#listaNomes option');
@@ -222,7 +221,6 @@
             }
         }
 
-        // Múltiplos gatilhos para não falhar no Chrome/Edge/Mobile
         let inputNome = document.getElementById('nome');
         inputNome.addEventListener('input', atualizarEmail);
         inputNome.addEventListener('change', atualizarEmail);
@@ -264,13 +262,14 @@
                 return;
             }
 
-            let seg = document.getElementById('chkSeg').checked ? "Sim" : "";
-            let ter = document.getElementById('chkTer').checked ? "Sim" : "";
-            let qua = document.getElementById('chkQua').checked ? "Sim" : "";
-            let qui = document.getElementById('chkQui').checked ? "Sim" : "";
-            let sex = document.getElementById('chkSex').checked ? "Sim" : "";
+            // Define "Sim" se estiver marcado, e "Não" se estiver desmarcado
+            let seg = document.getElementById('chkSeg').checked ? "Sim" : "Não";
+            let ter = document.getElementById('chkTer').checked ? "Sim" : "Não";
+            let qua = document.getElementById('chkQua').checked ? "Sim" : "Não";
+            let qui = document.getElementById('chkQui').checked ? "Sim" : "Não";
+            let sex = document.getElementById('chkSex').checked ? "Sim" : "Não";
 
-            if (!seg && !ter && !qua && !qui && !sex) {
+            if (seg === "Não" && ter === "Não" && qua === "Não" && qui === "Não" && sex === "Não") {
                 alert("Por favor, selecione pelo menos um dia para o almoço.");
                 return;
             }
