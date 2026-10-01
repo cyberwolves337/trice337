@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRI - Controle de Refeições</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f2f2f2; color: #333; }
+        
+        /* Cabeçalho no padrão SESI */
+        header { 
+            background-color: #111111; 
+            color: white; 
+            padding: 20px 40px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            border-bottom: 4px solid #e30613;
+        }
+        .header-title h1 { font-size: 22px; font-weight: bold; letter-spacing: 1px; }
+        .header-title p { font-size: 13px; color: #ccc; margin-top: 3px; }
+        .logo-sesi { 
+            background-color: #e30613; 
+            color: white; 
+            font-weight: 900; 
+            font-style: italic; 
+            font-size: 22px; 
+            padding: 4px 15px; 
+            border-radius: 3px;
+            letter-spacing: 1px;
+        }
+
+        /* Cartão Central */
+        .container { display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 120px); padding: 20px; }
+        .card { 
+            background-color: white; 
+            padding: 45px 35px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+            text-align: center; 
+            max-width: 550px; 
+            width: 100%;
+        }
+        .card h2 { font-size: 26px; color: #111; margin-bottom: 12px; }
+        .card p { font-size: 15px; color: #666; margin-bottom: 8px; line-height: 1.5; }
+        .semana-destaque { font-weight: bold; color: #e30613; font-size: 16px; margin-bottom: 25px; }
+
+        /* Botão Acessar */
+        .btn-acessar { 
+            display: inline-block; 
+            background-color: #e30613; 
+            color: white; 
+            text-decoration: none; 
+            font-weight: bold; 
+            font-size: 16px; 
+            padding: 14px 32px; 
+            border-radius: 5px; 
+            transition: background 0.2s ease;
+            box-shadow: 0 2px 6px rgba(227, 6, 19, 0.3);
+        }
+        .btn-acessar:hover { background-color: #b8040f; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-title">
+            <h1>TRI - CONTROLE DE REFEIÇÕES</h1>
+            <p>SESI CE337 • Pederneiras</p>
+        </div>
+        <div class="logo-sesi">SESI</div>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2>Agendamento de Almoço</h2>
+            <p>Acesse o formulário abaixo para realizar a sua reserva de refeições.</p>
+            <p class="semana-destaque" id="textoSemana">Carregando período da semana...</p>
+
+            <!-- Cole o link do seu Microsoft Forms no href abaixo -->
+            <a href="COLE_O_LINK_DO_SEU_FORMS_AQUI" class="btn-acessar" target="_blank">AGENDAR REFEIÇÃO</a>
+        </div>
+    </div>
+
+    <script>
+        // Calcula dinamicamente a próxima segunda e sexta-feira
+        function calcularProximaSemana() {
+            let hoje = new Date();
+            let diaSemana = hoje.getDay(); // 0 = Domingo, 1 = Segunda...
+            
+            // Dias até a próxima segunda-feira
+            let diasAteSegunda = (diaSemana === 0) ? 1 : (8 - diaSemana);
+            
+            let proximaSegunda = new Date(hoje);
+            proximaSegunda.setDate(hoje.getDate() + diasAteSegunda);
+            
+            let proximaSexta = new Date(proximaSegunda);
+            proximaSexta.setDate(proximaSegunda.getDate() + 4);
+
+            function formatarData(data) {
+                let dia = String(data.getDate()).padStart(2, '0');
+                let mes = String(data.getMonth() + 1).padStart(2, '0');
+                return `${dia}/${mes}/${data.getFullYear()}`;
+            }
+
+            document.getElementById('textoSemana').innerText = 
+                `Reserva para a semana: ${formatarData(proximaSegunda)} a ${formatarData(proximaSexta)}`;
+        }
+
+        calcularProximaSemana();
+    </script>
+</body>
+</html>
