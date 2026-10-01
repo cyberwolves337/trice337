@@ -108,7 +108,7 @@
                 
                 <div class="form-group">
                     <label>Nome do Funcionário (Digite para buscar):</label>
-                    <input type="text" id="nome" list="listaNomes" class="form-control" placeholder="Start a digitar seu nome..." autocomplete="off" required>
+                    <input type="text" id="nome" list="listaNomes" class="form-control" placeholder="Comece a digitar seu nome..." autocomplete="off" required>
                     <datalist id="listaNomes">
                         <option value="Ailton Oliveira" data-email="ailton.benedito@sesisp.org.br">
                         <option value="Alessandra Coelho" data-email="alessandra.coelho@sesisp.org.br">
@@ -203,19 +203,30 @@
     <script>
         let dataSegundaFormatada = "";
 
-        // Preenchimento automático do e-mail ao escolher o nome
-        document.getElementById('nome').addEventListener('input', function() {
-            let val = this.value;
+        // Função melhorada para buscar e preencher o e-mail
+        function atualizarEmail() {
+            let val = document.getElementById('nome').value.trim();
             let options = document.querySelectorAll('#listaNomes option');
             let emailInput = document.getElementById('email');
             
-            emailInput.value = "";
+            let achou = false;
             options.forEach(opt => {
-                if (opt.value === val) {
+                if (opt.value.toLowerCase() === val.toLowerCase()) {
                     emailInput.value = opt.getAttribute('data-email');
+                    achou = true;
                 }
             });
-        });
+
+            if (!achou) {
+                emailInput.value = "";
+            }
+        }
+
+        // Múltiplos gatilhos para não falhar no Chrome/Edge/Mobile
+        let inputNome = document.getElementById('nome');
+        inputNome.addEventListener('input', atualizarEmail);
+        inputNome.addEventListener('change', atualizarEmail);
+        inputNome.addEventListener('blur', atualizarEmail);
 
         function calcularSemana() {
             let hoje = new Date();
