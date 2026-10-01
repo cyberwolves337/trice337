@@ -107,8 +107,70 @@
             <form id="formTRI">
                 
                 <div class="form-group">
-                    <label>Nome do Funcionário:</label>
-                    <input type="text" id="nome" class="form-control" placeholder="Digite seu nome completo" required>
+                    <label>Nome do Funcionário (Digite para buscar):</label>
+                    <input type="text" id="nome" list="listaNomes" class="form-control" placeholder="Comece a digitar seu nome..." autocomplete="off" required>
+                    <datalist id="listaNomes">
+                        <option value="Ailton Oliveira">
+                        <option value="Alessandra Coelho">
+                        <option value="Alessandro Merlin">
+                        <option value="Aline Oliveira">
+                        <option value="Amanda Tozzi">
+                        <option value="Anderson Simoes">
+                        <option value="Angelica Urrea">
+                        <option value="Anselmo Braz">
+                        <option value="Antonio Fuzer">
+                        <option value="Camila Acosta">
+                        <option value="Cassia Monteiro">
+                        <option value="Claudia Damiati">
+                        <option value="Daiane Domingos">
+                        <option value="Daniela Marinho">
+                        <option value="Danilo Souza">
+                        <option value="Emerson Barros">
+                        <option value="Ester Mercadante">
+                        <option value="Fabiana Barbosa">
+                        <option value="Fabiana Fornazari">
+                        <option value="Fabio Miniello">
+                        <option value="Fabricio Ribeiro">
+                        <option value="Gabriel Oliveira">
+                        <option value="Gabrieli Campos">
+                        <option value="Graziela Santos">
+                        <option value="Isabel Rodrigues">
+                        <option value="Jacqueline Silva">
+                        <option value="Joice Pereira">
+                        <option value="Juliana Silva">
+                        <option value="Juliana Barbosa">
+                        <option value="Karina Garnica">
+                        <option value="Katiane Pinto">
+                        <option value="Laryssa Gomes">
+                        <option value="Leandro Junior">
+                        <option value="Leila Mascaro">
+                        <option value="Leticia Rossi">
+                        <option value="Leticia Martinez">
+                        <option value="Luana Speri">
+                        <option value="Lucilene Pereira">
+                        <option value="Marcia Freitas">
+                        <option value="Maria Tripoloni">
+                        <option value="Maria Teodoro">
+                        <option value="Marina Sartori">
+                        <option value="Marlene Almeida">
+                        <option value="Mayara Arantes">
+                        <option value="Melina Berbel">
+                        <option value="Rosana Ferreira">
+                        <option value="Rosemary Gomes">
+                        <option value="Rubia Campos">
+                        <option value="Susimara Pagan">
+                        <option value="Susimara Guermandi">
+                        <option value="Talita Marestoni">
+                        <option value="Tania Baldim">
+                        <option value="Telma Ferreira">
+                        <option value="Thiago Lima">
+                        <option value="Thiago Alves">
+                        <option value="Valeria Motta">
+                        <option value="Vanessa Barros">
+                        <option value="Viviane Barbosa">
+                        <option value="Wayner Valentim">
+                        <option value="William Catellan">
+                    </datalist>
                 </div>
 
                 <div class="form-group">
@@ -171,9 +233,15 @@
             e.preventDefault();
 
             let nome = document.getElementById('nome').value;
-            let email = document.getElementById('email').value;
+            let email = document.getElementById('email').value.trim();
             let semana = document.getElementById('semana').value;
             let btn = document.getElementById('btnSubmit');
+
+            // Validação de e-mail institucional do SESI
+            if (!email.toLowerCase().endsWith("@sesisp.org.br")) {
+                alert("Por favor, utilize seu e-mail institucional do SESI (@sesisp.org.br).");
+                return;
+            }
 
             let seg = document.getElementById('chkSeg').checked ? "Sim" : "";
             let ter = document.getElementById('chkTer').checked ? "Sim" : "";
