@@ -20,11 +20,10 @@
         .header-title h1 { font-size: 20px; font-weight: bold; letter-spacing: 1px; }
         .header-title p { font-size: 13px; color: #ccc; margin-top: 3px; }
         
-        .logo-sesi-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .logo-sesi {
             height: 42px;
+            width: auto;
+            display: block;
         }
 
         .container { display: flex; justify-content: center; align-items: center; padding: 30px 15px; min-height: calc(100vh - 100px); }
@@ -98,27 +97,8 @@
             <p>SESI CE337 • Pederneiras</p>
         </div>
         
-        <!-- Logo Oficial do SESI vetorizado em alta qualidade -->
-        <div class="logo-sesi-container">
-            <svg height="40" viewBox="0 0 320 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- Fundo Vermelho Oficial -->
-                <rect width="320" height="100" fill="#E30613"/>
-                <!-- Listras Brancas Esquerda -->
-                <rect y="12" width="22" height="6" fill="white"/>
-                <rect y="31" width="22" height="6" fill="white"/>
-                <rect y="50" width="22" height="6" fill="white"/>
-                <rect y="69" width="22" height="6" fill="white"/>
-                <rect y="88" width="22" height="6" fill="white"/>
-                <!-- Listras Brancas Direita -->
-                <rect x="298" y="12" width="22" height="6" fill="white"/>
-                <rect x="298" y="31" width="22" height="6" fill="white"/>
-                <rect x="298" y="50" width="22" height="6" fill="white"/>
-                <rect x="298" y="69" width="22" height="6" fill="white"/>
-                <rect x="298" y="88" width="22" height="6" fill="white"/>
-                <!-- Letras SESI Italicas com Tipografia Oficial -->
-                <text x="160" y="74" font-family="'Segoe UI', 'Arial Black', sans-serif" font-size="78" font-weight="900" font-style="italic" fill="white" text-anchor="middle" letter-spacing="-1">SESI</text>
-            </svg>
-        </div>
+        <!-- Logo Oficial Transparente vinda do repositório -->
+        <img src="sesi-logo.png" alt="Logo SESI" class="logo-sesi">
     </header>
 
     <div class="container">
