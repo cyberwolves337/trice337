@@ -31,12 +31,14 @@
             transition: filter 0.3s ease;
         }
         
+        /* Efeito Embaçado para quando estiver bloqueado */
         .bloqueado-blur {
             filter: blur(5px);
             pointer-events: none;
             user-select: none;
         }
 
+        /* Overlay de Bloqueio */
         .overlay-bloqueio {
             display: none;
             position: fixed;
@@ -105,6 +107,7 @@
         .btn-enviar:hover { background-color: #b8040f; }
         .btn-enviar:disabled { background-color: #cccccc; cursor: not-allowed; }
 
+        /* Estilo das Mensagens de Status (Substitui o alert nativo) */
         .status-msg { 
             display: none; 
             padding: 15px; 
@@ -113,13 +116,16 @@
             text-align: center;
             font-weight: 600;
             font-size: 14px;
+            line-height: 1.4;
         }
         .status-sucesso { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
         .status-erro { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .status-alerta { background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
     </style>
 </head>
 <body>
 
+    <!-- Overlay de Alerta de Fechamento -->
     <div id="overlayBloqueio" class="overlay-bloqueio" role="dialog" aria-modal="true">
         <div class="modal-bloqueio">
             <h2>🔒 Agendamento Indisponível</h2>
@@ -157,11 +163,11 @@
                 <div class="form-group">
                     <label>Selecione os dias para almoço:</label>
                     <div class="checkbox-group">
-                        <label class="checkbox-item"><input type="checkbox" class="chkDia" id="chkSeg" value="Segunda-feira"> Segunda-feira</label>
-                        <label class="checkbox-item"><input type="checkbox" class="chkDia" id="chkTer" value="Terça-feira"> Terça-feira</label>
-                        <label class="checkbox-item"><input type="checkbox" class="chkDia" id="chkQua" value="Quarta-feira"> Quarta-feira</label>
-                        <label class="checkbox-item"><input type="checkbox" class="chkDia" id="chkQui" value="Quinta-feira"> Quinta-feira</label>
-                        <label class="checkbox-item"><input type="checkbox" class="chkDia" id="chkSex" value="Sexta-feira"> Sexta-feira</label>
+                        <label class="checkbox-item"><input type="checkbox" id="chkSeg" value="Segunda-feira"> Segunda-feira</label>
+                        <label class="checkbox-item"><input type="checkbox" id="chkTer" value="Terça-feira"> Terça-feira</label>
+                        <label class="checkbox-item"><input type="checkbox" id="chkQua" value="Quarta-feira"> Quarta-feira</label>
+                        <label class="checkbox-item"><input type="checkbox" id="chkQui" value="Quinta-feira"> Quinta-feira</label>
+                        <label class="checkbox-item"><input type="checkbox" id="chkSex" value="Sexta-feira"> Sexta-feira</label>
                     </div>
                 </div>
 
@@ -244,7 +250,7 @@
         });
         datalist.appendChild(fragment);
 
-        // Validação de disponibilidade de dias (Apenas Segunda-feira [1] e Terça-feira [2])
+        // Validação de disponibilidade de dias (Apenas Segunda [1] e Terça [2])
         function verificarDisponibilidade() {
             const hoje = new Date();
             const diaSemana = hoje.getDay(); 
@@ -254,8 +260,6 @@
                 document.getElementById('cardForm').classList.add('bloqueado-blur');
                 document.getElementById('headerApp').classList.add('bloqueado-blur');
                 document.getElementById('overlayBloqueio').style.display = 'flex';
-                
-                // Desativa todos os controles por segurança contra Inspecionar Elemento
                 document.querySelectorAll('#formTRI input, #formTRI button').forEach(el => el.disabled = true);
             }
         }
@@ -293,7 +297,7 @@
 
         calcularSemana();
 
-        // Exibição de mensagens
+        // Exibição de mensagens na interface (Inline)
         function exibirMensagem(texto, tipo) {
             const statusMsg = document.getElementById('statusMsg');
             statusMsg.className = `status-msg status-${tipo}`;
@@ -301,7 +305,7 @@
             statusMsg.style.display = 'block';
         }
 
-        // Submissão do formulário com tratamento robusto de erros
+        // Submissão do formulário
         document.getElementById('formTRI').addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -310,8 +314,9 @@
             const semana = document.getElementById('semana').value;
             const btn = document.getElementById('btnSubmit');
 
+            // Validação de E-mail
             if (!email) {
-                alert("Por favor, selecione um nome válido da lista para carregar o e-mail.");
+                exibirMensagem("⚠️ Por favor, selecione um nome válido da lista para carregar o e-mail.", "alerta");
                 return;
             }
 
@@ -321,8 +326,9 @@
             const qui = document.getElementById('chkQui').checked ? "Sim" : "Não";
             const sex = document.getElementById('chkSex').checked ? "Sim" : "Não";
 
+            // Validação de Seleção de Dia
             if (seg === "Não" && ter === "Não" && qua === "Não" && qui === "Não" && sex === "Não") {
-                alert("Por favor, selecione pelo menos um dia para o almoço.");
+                exibirMensagem("⚠️️ Por favor, selecione pelo menos um dia para o almoço.", "alerta");
                 return;
             }
 
