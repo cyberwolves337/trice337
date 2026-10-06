@@ -31,14 +31,12 @@
             transition: filter 0.3s ease;
         }
         
-        /* Efeito Embaçado para quando estiver bloqueado */
         .bloqueado-blur {
             filter: blur(5px);
             pointer-events: none;
             user-select: none;
         }
 
-        /* Overlay de Bloqueio */
         .overlay-bloqueio {
             display: none;
             position: fixed;
@@ -46,7 +44,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.65);
             z-index: 999;
             justify-content: center;
             align-items: center;
@@ -63,17 +61,8 @@
             border-top: 5px solid #e30613;
         }
 
-        .modal-bloqueio h2 {
-            font-size: 20px;
-            color: #111;
-            margin-bottom: 10px;
-        }
-
-        .modal-bloqueio p {
-            font-size: 14px;
-            color: #666;
-            line-height: 1.5;
-        }
+        .modal-bloqueio h2 { font-size: 20px; color: #111; margin-bottom: 10px; }
+        .modal-bloqueio p { font-size: 14px; color: #666; line-height: 1.5; }
 
         .form-group { margin-bottom: 20px; text-align: left; }
         .form-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px; color: #444; }
@@ -114,24 +103,24 @@
             transition: background 0.2s;
         }
         .btn-enviar:hover { background-color: #b8040f; }
+        .btn-enviar:disabled { background-color: #cccccc; cursor: not-allowed; }
 
-        .mensagem-sucesso { 
+        .status-msg { 
             display: none; 
             padding: 15px; 
-            background-color: #d4edda; 
-            color: #155724; 
-            border: 1px solid #c3e6cb; 
             border-radius: 5px; 
             margin-top: 15px; 
             text-align: center;
             font-weight: 600;
+            font-size: 14px;
         }
+        .status-sucesso { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .status-erro { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
     </style>
 </head>
 <body>
 
-    <!-- Overlay de Alerta de Fechamento -->
-    <div id="overlayBloqueio" class="overlay-bloqueio">
+    <div id="overlayBloqueio" class="overlay-bloqueio" role="dialog" aria-modal="true">
         <div class="modal-bloqueio">
             <h2>🔒 Agendamento Indisponível</h2>
             <p>O sistema de agendamento de refeições fica disponível exclusivamente de <strong>segunda a terça-feira</strong>.</p>
@@ -149,185 +138,188 @@
     <div class="container">
         <div class="card" id="cardForm">
             <form id="formTRI">
-                
                 <div class="form-group">
-                    <label>Nome do Funcionário (Digite para buscar):</label>
+                    <label for="nome">Nome do Funcionário (Digite para buscar):</label>
                     <input type="text" id="nome" list="listaNomes" class="form-control" placeholder="Comece a digitar seu nome..." autocomplete="off" required>
-                    <datalist id="listaNomes">
-                        <option value="Ailton Oliveira" data-email="ailton.benedito@sesisp.org.br">
-                        <option value="Alessandra Coelho" data-email="alessandra.coelho@sesisp.org.br">
-                        <option value="Alessandro Merlin" data-email="alessandro.merlin@sesisp.org.br">
-                        <option value="Aline Oliveira" data-email="aline.jesus@sesisp.org.br">
-                        <option value="Amanda Tozzi" data-email="amanda.cristina@sesisp.org.br">
-                        <option value="Anderson Simoes" data-email="anderson.simoes@sesisp.org.br">
-                        <option value="Angelica Urrea" data-email="angelica.urrea@sesisp.org.br">
-                        <option value="Anselmo Braz" data-email="anselmo.braz@sesisp.org.br">
-                        <option value="Antonio Fuzer" data-email="antonio.fuzer@sesisp.org.br">
-                        <option value="Camila Acosta" data-email="camila.solana@sesisp.org.br">
-                        <option value="Cassia Monteiro" data-email="cassia.carvalho@sesisp.org.br">
-                        <option value="Claudia Damiati" data-email="claudia.damiati@sesisp.org.br">
-                        <option value="Daiane Domingos" data-email="daiane.pescara@sesisp.org.br">
-                        <option value="Daniela Marinho" data-email="daniela.marinho@sesisp.org.br">
-                        <option value="Danilo Souza" data-email="danilo.roberto@sesisp.org.br">
-                        <option value="Emerson Barros" data-email="emerson.mansano@sesisp.org.br">
-                        <option value="Ester Mercadante" data-email="ester.mercadante@sesisp.org.br">
-                        <option value="Fabiana Barbosa" data-email="fabiana.abarbosa@sesisp.org.br">
-                        <option value="Fabiana Fornazari" data-email="fabiana.fornazari@sesisp.org.br">
-                        <option value="Fabio Miniello" data-email="fabio.miniello@sesisp.org.br">
-                        <option value="Fabricio Ribeiro" data-email="fabricio.ribeiro@sesisp.org.br">
-                        <option value="Gabriel Oliveira" data-email="gabriel.toledo@sesisp.org.br">
-                        <option value="Gabrieli Campos" data-email="gabrieli.fernandes@sesisp.org.br">
-                        <option value="Graziela Santos" data-email="graziela.santos@sesisp.org.br">
-                        <option value="Isabel Rodrigues" data-email="isabel.rodrigues@sesisp.org.br">
-                        <option value="Jacqueline Silva" data-email="jacqueline.maciel@sesisp.org.br">
-                        <option value="Joice Pereira" data-email="joice.pereira@sesisp.org.br">
-                        <option value="Juliana Silva" data-email="juliana.cordeiro@sesisp.org.br">
-                        <option value="Juliana Barbosa" data-email="juliana.barbosa@sesisp.org.br">
-                        <option value="Karina Garnica" data-email="karina.garnica@sesisp.org.br">
-                        <option value="Katiane Pinto" data-email="katiane.galvao@sesisp.org.br">
-                        <option value="Leila Mascaro" data-email="leila.mascaro@sesisp.org.br">
-                        <option value="Leticia Rossi" data-email="leticia.rossi@sesisp.org.br">
-                        <option value="Leticia Martinez" data-email="leticia.martinez@sesisp.org.br">
-                        <option value="Luana Speri" data-email="lsperi@sesisp.org.br">
-                        <option value="Lucilene Pereira" data-email="lucilene.pereira@sesisp.org.br">
-                        <option value="Marcia Freitas" data-email="marcia.maronez@sesisp.org.br">
-                        <option value="Maria Tripoloni" data-email="maria.tripoloni@sesisp.org.br">
-                        <option value="Maria Teodoro" data-email="maria.teodoro@sesisp.org.br">
-                        <option value="Marina Sartori" data-email="marina.zorzin@sesisp.org.br">
-                        <option value="Marlene Almeida" data-email="marlene.xavier@sesisp.org.br">
-                        <option value="Mayara Arantes" data-email="mayara.arantes@sesisp.org.br">
-                        <option value="Melina Berbel" data-email="melina.berbel@sesisp.org.br">
-                        <option value="Rosana Ferreira" data-email="rosanaferreira@sesisp.org.br">
-                        <option value="Rosemary Gomes" data-email="mary.ferreira@sesisp.org.br">
-                        <option value="Rubia Campos" data-email="rubia.campos@sesisp.org.br">
-                        <option value="Susimara Pagan" data-email="susimara.guermandi@sesisp.org.br">
-                        <option value="Talita Marestoni" data-email="talita.marestoni@sesisp.org.br">
-                        <option value="Tania Baldim" data-email="tania.baldim@sesisp.org.br">
-                        <option value="Telma Ferreira" data-email="telma.osses@sesisp.org.br">
-                        <option value="Thiago Lima" data-email="thiago.llima@sesisp.org.br">
-                        <option value="Thiago Alves" data-email="thiago.martini@sesisp.org.br">
-                        <option value="Valeria Motta" data-email="valeria.motta@sesisp.org.br">
-                        <option value="Vanessa Barros" data-email="vanessa.barros@sesisp.org.br">
-                        <option value="Viviane Barbosa" data-email="viviane.barbosa@sesisp.org.br">
-                        <option value="Wayner Valentim" data-email="wayner.valentim@sesisp.org.br">
-                        <option value="William Catellan" data-email="william.catellan@sesisp.org.br">
-                    </datalist>
+                    <datalist id="listaNomes"></datalist>
                 </div>
 
                 <div class="form-group">
-                    <label>E-mail Corporativo:</label>
+                    <label for="email">E-mail Corporativo:</label>
                     <input type="email" id="email" class="form-control" placeholder="Selecione seu nome para carregar o e-mail" disabled required>
                 </div>
 
                 <div class="form-group">
-                    <label>Período da Reserva (Semana):</label>
+                    <label for="semana">Período da Reserva (Semana):</label>
                     <input type="text" id="semana" class="form-control" disabled>
                 </div>
 
                 <div class="form-group">
                     <label>Selecione os dias para almoço:</label>
                     <div class="checkbox-group">
-                        <label class="checkbox-item"><input type="checkbox" id="chkSeg" value="Segunda-feira"> Segunda-feira</label>
-                        <label class="checkbox-item"><input type="checkbox" id="chkTer" value="Terça-feira"> Terça-feira</label>
-                        <label class="checkbox-item"><input type="checkbox" id="chkQua" value="Quarta-feira"> Quarta-feira</label>
-                        <label class="checkbox-item"><input type="checkbox" id="chkQui" value="Quinta-feira"> Quinta-feira</label>
-                        <label class="checkbox-item"><input type="checkbox" id="chkSex" value="Sexta-feira"> Sexta-feira</label>
+                        <label class="checkbox-item"><input type="checkbox" class="chkDia" id="chkSeg" value="Segunda-feira"> Segunda-feira</label>
+                        <label class="checkbox-item"><input type="checkbox" class="chkDia" id="chkTer" value="Terça-feira"> Terça-feira</label>
+                        <label class="checkbox-item"><input type="checkbox" class="chkDia" id="chkQua" value="Quarta-feira"> Quarta-feira</label>
+                        <label class="checkbox-item"><input type="checkbox" class="chkDia" id="chkQui" value="Quinta-feira"> Quinta-feira</label>
+                        <label class="checkbox-item"><input type="checkbox" class="chkDia" id="chkSex" value="Sexta-feira"> Sexta-feira</label>
                     </div>
                 </div>
 
                 <button type="submit" class="btn-enviar" id="btnSubmit">CONFIRMAR RESERVA</button>
             </form>
 
-            <div id="msgSucesso" class="mensagem-sucesso">
-                ✅ Agendamento realizado com sucesso!
-            </div>
+            <div id="statusMsg" class="status-msg"></div>
         </div>
     </div>
 
     <script>
-        let dataSegundaFormatada = "";
+        // Mapeamento em memória para alta performance
+        const funcionarios = [
+            { nome: "Ailton Oliveira", email: "ailton.benedito@sesisp.org.br" },
+            { nome: "Alessandra Coelho", email: "alessandra.coelho@sesisp.org.br" },
+            { nome: "Alessandro Merlin", email: "alessandro.merlin@sesisp.org.br" },
+            { nome: "Aline Oliveira", email: "aline.jesus@sesisp.org.br" },
+            { nome: "Amanda Tozzi", email: "amanda.cristina@sesisp.org.br" },
+            { nome: "Anderson Simoes", email: "anderson.simoes@sesisp.org.br" },
+            { nome: "Angelica Urrea", email: "angelica.urrea@sesisp.org.br" },
+            { nome: "Anselmo Braz", email: "anselmo.braz@sesisp.org.br" },
+            { nome: "Antonio Fuzer", email: "antonio.fuzer@sesisp.org.br" },
+            { nome: "Camila Acosta", email: "camila.solana@sesisp.org.br" },
+            { nome: "Cassia Monteiro", email: "cassia.carvalho@sesisp.org.br" },
+            { nome: "Claudia Damiati", email: "claudia.damiati@sesisp.org.br" },
+            { nome: "Daiane Domingos", email: "daiane.pescara@sesisp.org.br" },
+            { nome: "Daniela Marinho", email: "daniela.marinho@sesisp.org.br" },
+            { nome: "Danilo Souza", email: "danilo.roberto@sesisp.org.br" },
+            { nome: "Emerson Barros", email: "emerson.mansano@sesisp.org.br" },
+            { nome: "Ester Mercadante", email: "ester.mercadante@sesisp.org.br" },
+            { nome: "Fabiana Barbosa", email: "fabiana.abarbosa@sesisp.org.br" },
+            { nome: "Fabiana Fornazari", email: "fabiana.fornazari@sesisp.org.br" },
+            { nome: "Fabio Miniello", email: "fabio.miniello@sesisp.org.br" },
+            { nome: "Fabricio Ribeiro", email: "fabricio.ribeiro@sesisp.org.br" },
+            { nome: "Gabriel Oliveira", email: "gabriel.toledo@sesisp.org.br" },
+            { nome: "Gabrieli Campos", email: "gabrieli.fernandes@sesisp.org.br" },
+            { nome: "Graziela Santos", email: "graziela.santos@sesisp.org.br" },
+            { nome: "Isabel Rodrigues", email: "isabel.rodrigues@sesisp.org.br" },
+            { nome: "Jacqueline Silva", email: "jacqueline.maciel@sesisp.org.br" },
+            { nome: "Joice Pereira", email: "joice.pereira@sesisp.org.br" },
+            { nome: "Juliana Silva", email: "juliana.cordeiro@sesisp.org.br" },
+            { nome: "Juliana Barbosa", email: "juliana.barbosa@sesisp.org.br" },
+            { nome: "Karina Garnica", email: "karina.garnica@sesisp.org.br" },
+            { nome: "Katiane Pinto", email: "katiane.galvao@sesisp.org.br" },
+            { nome: "Leila Mascaro", email: "leila.mascaro@sesisp.org.br" },
+            { nome: "Leticia Rossi", email: "leticia.rossi@sesisp.org.br" },
+            { nome: "Leticia Martinez", email: "leticia.martinez@sesisp.org.br" },
+            { nome: "Luana Speri", email: "lsperi@sesisp.org.br" },
+            { nome: "Lucilene Pereira", email: "lucilene.pereira@sesisp.org.br" },
+            { nome: "Marcia Freitas", email: "marcia.maronez@sesisp.org.br" },
+            { nome: "Maria Tripoloni", email: "maria.tripoloni@sesisp.org.br" },
+            { nome: "Maria Teodoro", email: "maria.teodoro@sesisp.org.br" },
+            { nome: "Marina Sartori", email: "marina.zorzin@sesisp.org.br" },
+            { nome: "Marlene Almeida", email: "marlene.xavier@sesisp.org.br" },
+            { nome: "Mayara Arantes", email: "mayara.arantes@sesisp.org.br" },
+            { nome: "Melina Berbel", email: "melina.berbel@sesisp.org.br" },
+            { nome: "Rosana Ferreira", email: "rosanaferreira@sesisp.org.br" },
+            { nome: "Rosemary Gomes", email: "mary.ferreira@sesisp.org.br" },
+            { nome: "Rubia Campos", email: "rubia.campos@sesisp.org.br" },
+            { nome: "Susimara Pagan", email: "susimara.guermandi@sesisp.org.br" },
+            { nome: "Talita Marestoni", email: "talita.marestoni@sesisp.org.br" },
+            { nome: "Tania Baldim", email: "tania.baldim@sesisp.org.br" },
+            { nome: "Telma Ferreira", email: "telma.osses@sesisp.org.br" },
+            { nome: "Thiago Lima", email: "thiago.llima@sesisp.org.br" },
+            { nome: "Thiago Alves", email: "thiago.martini@sesisp.org.br" },
+            { nome: "Valeria Motta", email: "valeria.motta@sesisp.org.br" },
+            { nome: "Vanessa Barros", email: "vanessa.barros@sesisp.org.br" },
+            { nome: "Viviane Barbosa", email: "viviane.barbosa@sesisp.org.br" },
+            { nome: "Wayner Valentim", email: "wayner.valentim@sesisp.org.br" },
+            { nome: "William Catellan", email: "william.catellan@sesisp.org.br" }
+        ];
 
-        // Validação de dia para liberação (Apenas Segunda-feira [1] e Terça-feira [2])
+        // Inicializa o datalist
+        const datalist = document.getElementById('listaNomes');
+        const fragment = document.createDocumentFragment();
+        funcionarios.forEach(f => {
+            const opt = document.createElement('option');
+            opt.value = f.nome;
+            fragment.appendChild(opt);
+        });
+        datalist.appendChild(fragment);
+
+        // Validação de disponibilidade de dias (Apenas Segunda-feira [1] e Terça-feira [2])
         function verificarDisponibilidade() {
-            let hoje = new Date();
-            let diaSemana = hoje.getDay(); // 0 = Domingo, 1 = Segunda, 2 = Terça, 3 = Quarta, 4 = Quinta, 5 = Sexta, 6 = Sábado
-
-            // Aberto APENAS se for Segunda (1) ou Terça (2)
-            let estaAberto = (diaSemana === 1 || diaSemana === 2);
+            const hoje = new Date();
+            const diaSemana = hoje.getDay(); 
+            const estaAberto = (diaSemana === 1 || diaSemana === 2);
 
             if (!estaAberto) {
                 document.getElementById('cardForm').classList.add('bloqueado-blur');
                 document.getElementById('headerApp').classList.add('bloqueado-blur');
                 document.getElementById('overlayBloqueio').style.display = 'flex';
+                
+                // Desativa todos os controles por segurança contra Inspecionar Elemento
+                document.querySelectorAll('#formTRI input, #formTRI button').forEach(el => el.disabled = true);
             }
         }
 
         verificarDisponibilidade();
 
-        function atualizarEmail() {
-            let val = document.getElementById('nome').value.trim();
-            let options = document.querySelectorAll('#listaNomes option');
-            let emailInput = document.getElementById('email');
-            
-            let achou = false;
-            options.forEach(opt => {
-                if (opt.value.toLowerCase() === val.toLowerCase()) {
-                    emailInput.value = opt.getAttribute('data-email');
-                    achou = true;
-                }
-            });
+        // Autocomplete de e-mail corporativo
+        const inputNome = document.getElementById('nome');
+        const inputEmail = document.getElementById('email');
 
-            if (!achou) {
-                emailInput.value = "";
-            }
+        function atualizarEmail() {
+            const val = inputNome.value.trim().toLowerCase();
+            const pessoa = funcionarios.find(f => f.nome.toLowerCase() === val);
+            inputEmail.value = pessoa ? pessoa.email : "";
         }
 
-        let inputNome = document.getElementById('nome');
         inputNome.addEventListener('input', atualizarEmail);
         inputNome.addEventListener('change', atualizarEmail);
-        inputNome.addEventListener('blur', atualizarEmail);
 
+        // Cálculo dinâmico da semana seguinte
         function calcularSemana() {
-            let hoje = new Date();
-            let diaSemana = hoje.getDay();
-            let diasAteSegunda = (diaSemana === 0) ? 1 : (8 - diaSemana);
+            const hoje = new Date();
+            const diaSemana = hoje.getDay();
+            const diasAteSegunda = (diaSemana === 0) ? 1 : (8 - diaSemana);
             
-            let proximaSegunda = new Date(hoje);
+            const proximaSegunda = new Date(hoje);
             proximaSegunda.setDate(hoje.getDate() + diasAteSegunda);
             
-            let proximaSexta = new Date(proximaSegunda);
+            const proximaSexta = new Date(proximaSegunda);
             proximaSexta.setDate(proximaSegunda.getDate() + 4);
 
-            function formatar(d) {
-                let dia = String(d.getDate()).padStart(2, '0');
-                let mes = String(d.getMonth() + 1).padStart(2, '0');
-                return `${dia}/${mes}/${d.getFullYear()}`;
-            }
-
-            dataSegundaFormatada = formatar(proximaSegunda);
+            const formatar = (d) => `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
             document.getElementById('semana').value = `${formatar(proximaSegunda)} a ${formatar(proximaSexta)}`;
         }
 
         calcularSemana();
 
+        // Exibição de mensagens
+        function exibirMensagem(texto, tipo) {
+            const statusMsg = document.getElementById('statusMsg');
+            statusMsg.className = `status-msg status-${tipo}`;
+            statusMsg.innerText = texto;
+            statusMsg.style.display = 'block';
+        }
+
+        // Submissão do formulário com tratamento robusto de erros
         document.getElementById('formTRI').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            let nome = document.getElementById('nome').value;
-            let email = document.getElementById('email').value;
-            let semana = document.getElementById('semana').value;
-            let btn = document.getElementById('btnSubmit');
+            const nome = inputNome.value.trim();
+            const email = inputEmail.value;
+            const semana = document.getElementById('semana').value;
+            const btn = document.getElementById('btnSubmit');
 
             if (!email) {
                 alert("Por favor, selecione um nome válido da lista para carregar o e-mail.");
                 return;
             }
 
-            let seg = document.getElementById('chkSeg').checked ? "Sim" : "Não";
-            let ter = document.getElementById('chkTer').checked ? "Sim" : "Não";
-            let qua = document.getElementById('chkQua').checked ? "Sim" : "Não";
-            let qui = document.getElementById('chkQui').checked ? "Sim" : "Não";
-            let sex = document.getElementById('chkSex').checked ? "Sim" : "Não";
+            const seg = document.getElementById('chkSeg').checked ? "Sim" : "Não";
+            const ter = document.getElementById('chkTer').checked ? "Sim" : "Não";
+            const qua = document.getElementById('chkQua').checked ? "Sim" : "Não";
+            const qui = document.getElementById('chkQui').checked ? "Sim" : "Não";
+            const sex = document.getElementById('chkSex').checked ? "Sim" : "Não";
 
             if (seg === "Não" && ter === "Não" && qua === "Não" && qui === "Não" && sex === "Não") {
                 alert("Por favor, selecione pelo menos um dia para o almoço.");
@@ -336,19 +328,11 @@
 
             btn.disabled = true;
             btn.innerText = "Enviando...";
+            document.getElementById('statusMsg').style.display = 'none';
 
-            let webhookURL = "https://default4148a6de0dd14d04a4c578e374e4f6.d6.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/80215e2a62484e3c94f85b483cbab679/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=t6ok-jReLukro890x4QJEJrVd67SaTFlWmM6_r1xVfQ";
+            const webhookURL = "https://default4148a6de0dd14d04a4c578e374e4f6.d6.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/80215e2a62484e3c94f85b483cbab679/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=t6ok-jReLukro890x4QJEJrVd67SaTFlWmM6_r1xVfQ";
 
-            let payload = {
-                nome: nome,
-                email: email,
-                semana: semana,
-                segunda: seg,
-                terca: ter,
-                quarta: qua,
-                quinta: qui,
-                sexta: sex
-            };
+            const payload = { nome, email, semana, segunda: seg, terca: ter, quarta: qua, quinta: qui, sexta: sex };
 
             fetch(webhookURL, {
                 method: "POST",
@@ -356,18 +340,19 @@
                 body: JSON.stringify(payload)
             })
             .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Erro na requisição: Status ${response.status}`);
+                }
                 document.getElementById('formTRI').reset();
-                document.getElementById('email').value = "";
+                inputEmail.value = "";
                 calcularSemana();
-                document.getElementById('msgSucesso').style.display = 'block';
-                btn.disabled = false;
-                btn.innerText = "CONFIRMAR RESERVA";
+                exibirMensagem("✅ Agendamento realizado com sucesso!", "sucesso");
             })
             .catch(error => {
-                document.getElementById('formTRI').reset();
-                document.getElementById('email').value = "";
-                calcularSemana();
-                document.getElementById('msgSucesso').style.display = 'block';
+                console.error("Erro no envio:", error);
+                exibirMensagem("❌ Ocorreu um erro ao registrar o agendamento. Tente novamente.", "erro");
+            })
+            .finally(() => {
                 btn.disabled = false;
                 btn.innerText = "CONFIRMAR RESERVA";
             });
