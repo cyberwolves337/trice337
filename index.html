@@ -6,7 +6,7 @@
     <title>TRI - Controle de Refeições</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #f2f2f2; color: #333; }
+        body { background-color: #f2f2f2; color: #333; position: relative; }
         
         header { 
             background-color: #111111; 
@@ -20,12 +20,6 @@
         .header-title h1 { font-size: 20px; font-weight: bold; letter-spacing: 1px; }
         .header-title p { font-size: 13px; color: #ccc; margin-top: 3px; }
         
-        .logo-sesi {
-            height: 42px;
-            width: auto;
-            display: block;
-        }
-
         .container { display: flex; justify-content: center; align-items: center; padding: 30px 15px; min-height: calc(100vh - 100px); }
         .card { 
             background-color: white; 
@@ -34,8 +28,53 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
             max-width: 520px; 
             width: 100%;
+            transition: filter 0.3s ease;
         }
         
+        /* Efeito Embaçado para quando estiver bloqueado */
+        .bloqueado-blur {
+            filter: blur(5px);
+            pointer-events: none;
+            user-select: none;
+        }
+
+        /* Overlay de Bloqueio */
+        .overlay-bloqueio {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-bloqueio {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 400px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border-top: 5px solid #e30613;
+        }
+
+        .modal-bloqueio h2 {
+            font-size: 20px;
+            color: #111;
+            margin-bottom: 10px;
+        }
+
+        .modal-bloqueio p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+
         .form-group { margin-bottom: 20px; text-align: left; }
         .form-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px; color: #444; }
         .form-control { 
@@ -91,16 +130,24 @@
 </head>
 <body>
 
-    <header>
+    <!-- Overlay de Alerta de Fechamento -->
+    <div id="overlayBloqueio" class="overlay-bloqueio">
+        <div class="modal-bloqueio">
+            <h2>🔒 Agendamento Indisponível</h2>
+            <p>O sistema de agendamento de refeições fica disponível exclusivamente de <strong>segunda a terça-feira</strong>.</p>
+            <p style="margin-top: 8px;">Volte no início da próxima semana para realizar a sua reserva!</p>
+        </div>
+    </div>
+
+    <header id="headerApp">
         <div class="header-title">
             <h1>TRI - CONTROLE DE REFEIÇÕES</h1>
             <p>SESI CE337 • Pederneiras</p>
         </div>
-        
     </header>
 
     <div class="container">
-        <div class="card">
+        <div class="card" id="cardForm">
             <form id="formTRI">
                 
                 <div class="form-group">
@@ -199,6 +246,23 @@
 
     <script>
         let dataSegundaFormatada = "";
+
+        // Validação de dia para liberação (Apenas Segunda-feira [1] e Terça-feira [2])
+        function verificarDisponibilidade() {
+            let hoje = new Date();
+            let diaSemana = hoje.getDay(); // 0 = Domingo, 1 = Segunda, 2 = Terça, 3 = Quarta, 4 = Quinta, 5 = Sexta, 6 = Sábado
+
+            // Aberto APENAS se for Segunda (1) ou Terça (2)
+            let estaAberto = (diaSemana === 1 || diaSemana === 2);
+
+            if (!estaAberto) {
+                document.getElementById('cardForm').classList.add('bloqueado-blur');
+                document.getElementById('headerApp').classList.add('bloqueado-blur');
+                document.getElementById('overlayBloqueio').style.display = 'flex';
+            }
+        }
+
+        verificarDisponibilidade();
 
         function atualizarEmail() {
             let val = document.getElementById('nome').value.trim();
