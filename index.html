@@ -254,7 +254,7 @@
         function verificarDisponibilidade() {
             const hoje = new Date();
             const diaSemana = hoje.getDay(); 
-            const estaAberto = true; //(diaSemana === 1 || diaSemana === 2);
+            const estaAberto = true; (diaSemana === 1 || diaSemana === 2);
 
             if (!estaAberto) {
                 document.getElementById('cardForm').classList.add('bloqueado-blur');
