@@ -79,17 +79,45 @@
         .form-control:disabled { background-color: #e9ecef; color: #495057; font-weight: bold; cursor: not-allowed; }
 
         .checkbox-group { display: flex; flex-direction: column; gap: 10px; margin-top: 5px; }
+        
+        /* Container individual por dia */
+        .dia-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            transition: background 0.2s;
+        }
+        .dia-row:hover { background-color: #f8f9fa; }
+
         .checkbox-item { 
             display: flex; 
             align-items: center; 
-            padding: 10px 12px; 
-            border: 1px solid #e0e0e0; 
-            border-radius: 5px; 
             cursor: pointer;
-            transition: background 0.2s;
+            font-size: 14px;
+            font-weight: 500;
         }
-        .checkbox-item:hover { background-color: #f8f9fa; }
-        .checkbox-item input { margin-right: 12px; width: 18px; height: 18px; accent-color: #e30613; }
+        .checkbox-item input { margin-right: 10px; width: 18px; height: 18px; accent-color: #e30613; cursor: pointer; }
+
+        /* Estilo do checkbox Vegetariano */
+        .veg-item {
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            color: #2e7d32;
+            font-weight: 600;
+            cursor: pointer;
+            opacity: 0.4;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+        .veg-item.ativo {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .veg-item input { margin-right: 6px; width: 16px; height: 16px; accent-color: #2e7d32; cursor: pointer; }
 
         .btn-enviar { 
             width: 100%; 
@@ -107,7 +135,6 @@
         .btn-enviar:hover { background-color: #b8040f; }
         .btn-enviar:disabled { background-color: #cccccc; cursor: not-allowed; }
 
-        /* Estilo das Mensagens de Status (Substitui o alert nativo) */
         .status-msg { 
             display: none; 
             padding: 15px; 
@@ -163,11 +190,37 @@
                 <div class="form-group">
                     <label>Selecione os dias para almoço:</label>
                     <div class="checkbox-group">
-                        <label class="checkbox-item"><input type="checkbox" id="chkSeg" value="Segunda-feira"> Segunda-feira</label>
-                        <label class="checkbox-item"><input type="checkbox" id="chkTer" value="Terça-feira"> Terça-feira</label>
-                        <label class="checkbox-item"><input type="checkbox" id="chkQua" value="Quarta-feira"> Quarta-feira</label>
-                        <label class="checkbox-item"><input type="checkbox" id="chkQui" value="Quinta-feira"> Quinta-feira</label>
-                        <label class="checkbox-item"><input type="checkbox" id="chkSex" value="Sexta-feira"> Sexta-feira</label>
+                        
+                        <!-- Segunda-feira -->
+                        <div class="dia-row">
+                            <label class="checkbox-item"><input type="checkbox" id="chkSeg" value="Segunda-feira" onchange="toggleVeg('chkSeg', 'vegSegContainer', 'chkSegVeg')"> Segunda-feira</label>
+                            <label class="veg-item" id="vegSegContainer"><input type="checkbox" id="chkSegVeg"> Vegetariano</label>
+                        </div>
+
+                        <!-- Terça-feira -->
+                        <div class="dia-row">
+                            <label class="checkbox-item"><input type="checkbox" id="chkTer" value="Terça-feira" onchange="toggleVeg('chkTer', 'vegTerContainer', 'chkTerVeg')"> Terça-feira</label>
+                            <label class="veg-item" id="vegTerContainer"><input type="checkbox" id="chkTerVeg"> Vegetariano</label>
+                        </div>
+
+                        <!-- Quarta-feira -->
+                        <div class="dia-row">
+                            <label class="checkbox-item"><input type="checkbox" id="chkQua" value="Quarta-feira" onchange="toggleVeg('chkQua', 'vegQuaContainer', 'chkQuaVeg')"> Quarta-feira</label>
+                            <label class="veg-item" id="vegQuaContainer"><input type="checkbox" id="chkQuaVeg"> Vegetariano</label>
+                        </div>
+
+                        <!-- Quinta-feira -->
+                        <div class="dia-row">
+                            <label class="checkbox-item"><input type="checkbox" id="chkQui" value="Quinta-feira" onchange="toggleVeg('chkQui', 'vegQuiContainer', 'chkQuiVeg')"> Quinta-feira</label>
+                            <label class="veg-item" id="vegQuiContainer"><input type="checkbox" id="chkQuiVeg"> Vegetariano</label>
+                        </div>
+
+                        <!-- Sexta-feira -->
+                        <div class="dia-row">
+                            <label class="checkbox-item"><input type="checkbox" id="chkSex" value="Sexta-feira" onchange="toggleVeg('chkSex', 'vegSexContainer', 'chkSexVeg')"> Sexta-feira</label>
+                            <label class="veg-item" id="vegSexContainer"><input type="checkbox" id="chkSexVeg"> Vegetariano</label>
+                        </div>
+
                     </div>
                 </div>
 
@@ -179,7 +232,6 @@
     </div>
 
     <script>
-        // Mapeamento em memória para alta performance
         const funcionarios = [
             { nome: "Ailton Oliveira", email: "ailton.benedito@sesisp.org.br" },
             { nome: "Alessandra Coelho", email: "alessandra.coelho@sesisp.org.br" },
@@ -242,10 +294,10 @@
             { nome: "Cesar Filho", email: "cesar.geraldi@sp.senai.br" },
             { nome: "Patricia Trindade", email: "patricia.trindade@sp.senai.br" },
             { nome: "Fernanda Ortolani", email: "fernanda.ortolani@sp.senai.br" },
-             { nome: "Cristiane Pastore", email: "cristiane.pastore@sp.senai.br" }
+            { nome: "Cristiane Pastore", email: "cristiane.pastore@sp.senai.br" }
         ];
 
-        // Inicializa o datalist
+        // Inicializa a datalist com a lista de funcionários
         const datalist = document.getElementById('listaNomes');
         const fragment = document.createDocumentFragment();
         funcionarios.forEach(f => {
@@ -255,11 +307,10 @@
         });
         datalist.appendChild(fragment);
 
-        // Validação de disponibilidade de dias (Apenas Segunda [1] e Terça [2])
         function verificarDisponibilidade() {
             const hoje = new Date();
             const diaSemana = hoje.getDay(); 
-            const estaAberto = (diaSemana === 1 || diaSemana === 2);
+            const estaAberto = true; //(diaSemana === 1 || diaSemana === 2);
 
             if (!estaAberto) {
                 document.getElementById('cardForm').classList.add('bloqueado-blur');
@@ -271,7 +322,6 @@
 
         verificarDisponibilidade();
 
-        // Autocomplete de e-mail corporativo
         const inputNome = document.getElementById('nome');
         const inputEmail = document.getElementById('email');
 
@@ -284,7 +334,6 @@
         inputNome.addEventListener('input', atualizarEmail);
         inputNome.addEventListener('change', atualizarEmail);
 
-        // Cálculo dinâmico da semana seguinte
         function calcularSemana() {
             const hoje = new Date();
             const diaSemana = hoje.getDay();
@@ -302,7 +351,27 @@
 
         calcularSemana();
 
-        // Exibição de mensagens na interface (Inline)
+        function toggleVeg(chkDiaId, vegContainerId, chkVegId) {
+            const chkDia = document.getElementById(chkDiaId);
+            const vegContainer = document.getElementById(vegContainerId);
+            const chkVeg = document.getElementById(chkVegId);
+
+            if (chkDia.checked) {
+                vegContainer.classList.add('ativo');
+            } else {
+                vegContainer.classList.remove('ativo');
+                chkVeg.checked = false;
+            }
+        }
+
+        function obterValorDia(chkDiaId, chkVegId) {
+            const estaMarcado = document.getElementById(chkDiaId).checked;
+            const ehVegetariano = document.getElementById(chkVegId).checked;
+
+            if (!estaMarcado) return "Não";
+            return ehVegetariano ? "Vegetariano" : "Sim";
+        }
+
         function exibirMensagem(texto, tipo) {
             const statusMsg = document.getElementById('statusMsg');
             statusMsg.className = `status-msg status-${tipo}`;
@@ -310,7 +379,6 @@
             statusMsg.style.display = 'block';
         }
 
-        // Submissão do formulário
         document.getElementById('formTRI').addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -319,21 +387,19 @@
             const semana = document.getElementById('semana').value;
             const btn = document.getElementById('btnSubmit');
 
-            // Validação de E-mail
             if (!email) {
                 exibirMensagem("⚠️ Por favor, selecione um nome válido da lista para carregar o e-mail.", "alerta");
                 return;
             }
 
-            const seg = document.getElementById('chkSeg').checked ? "Sim" : "Não";
-            const ter = document.getElementById('chkTer').checked ? "Sim" : "Não";
-            const qua = document.getElementById('chkQua').checked ? "Sim" : "Não";
-            const qui = document.getElementById('chkQui').checked ? "Sim" : "Não";
-            const sex = document.getElementById('chkSex').checked ? "Sim" : "Não";
+            const seg = obterValorDia('chkSeg', 'chkSegVeg');
+            const ter = obterValorDia('chkTer', 'chkTerVeg');
+            const qua = obterValorDia('chkQua', 'chkQuaVeg');
+            const qui = obterValorDia('chkQui', 'chkQuiVeg');
+            const sex = obterValorDia('chkSex', 'chkSexVeg');
 
-            // Validação de Seleção de Dia
             if (seg === "Não" && ter === "Não" && qua === "Não" && qui === "Não" && sex === "Não") {
-                exibirMensagem("⚠️️ Por favor, selecione pelo menos um dia para o almoço.", "alerta");
+                exibirMensagem("⚠️ Por favor, selecione pelo menos um dia para o almoço.", "alerta");
                 return;
             }
 
@@ -355,6 +421,11 @@
                     throw new Error(`Erro na requisição: Status ${response.status}`);
                 }
                 document.getElementById('formTRI').reset();
+                
+                ['vegSegContainer', 'vegTerContainer', 'vegQuaContainer', 'vegQuiContainer', 'vegSexContainer'].forEach(id => {
+                    document.getElementById(id).classList.remove('ativo');
+                });
+
                 inputEmail.value = "";
                 calcularSemana();
                 exibirMensagem("✅ Agendamento realizado com sucesso!", "sucesso");
